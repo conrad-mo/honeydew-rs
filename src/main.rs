@@ -32,7 +32,7 @@ async fn newcv() -> impl IntoResponse {
         experienceparagraphone: String::from("Sample"),
         experienceparagraphtwo: String::from("Sample"),
         endingparagraph: String::from("Sample"),
-        name: String::from(api::APIKEY);
+        name: String::from(api::APIKEY),
     };
     (StatusCode::OK, Json(letter))
 }
