@@ -1,9 +1,11 @@
 mod types;
+mod api;
 
 use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router};
 use std::net::SocketAddr;
 use tower_http::cors::{Any, CorsLayer};
 use crate::types::CVLetter;
+
 
 #[tokio::main]
 async fn main() {
@@ -30,7 +32,7 @@ async fn newcv() -> impl IntoResponse {
         experienceparagraphone: String::from("Sample"),
         experienceparagraphtwo: String::from("Sample"),
         endingparagraph: String::from("Sample"),
-        name: String::from("Sample"),
+        name: String::from(api::APIKEY);
     };
     (StatusCode::OK, Json(letter))
 }

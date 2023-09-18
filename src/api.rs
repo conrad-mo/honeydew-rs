@@ -1,0 +1,1 @@
+pub const APIKEY: &str = "KEY HERE";
