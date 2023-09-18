@@ -24,6 +24,13 @@ async fn root() -> &'static str {
     "404"
 }
 async fn newcv() -> impl IntoResponse {
-    let letter = new CVLetter();
+    let letter = CVLetter{
+        date: String::from("Sample"),
+        firstparagraph: String::from("Sample"),
+        experienceparagraphone: String::from("Sample"),
+        experienceparagraphtwo: String::from("Sample"),
+        endingparagraph: String::from("Sample"),
+        name: String::from("Sample"),
+    };
     (StatusCode::OK, Json(letter))
 }
