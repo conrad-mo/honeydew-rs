@@ -36,7 +36,7 @@ impl CVLetter {
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write a body paragraph about \"Shopify is a great case study\" in a blog post titled \"Tips from the most successful companies\"".to_string(),
+            prompt: "Write a body paragraph about why someone should apply to RBC".to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
@@ -50,6 +50,7 @@ impl CVLetter {
         println!("Status: {}", response.status());
         let response_body = response.text().await?;
         println!("Response body:\n{}", response_body);
+        //println!("{}", response["generations"]["text"]);
         Ok(())
     }
     async fn generate_experienceparagraph1() -> String {
