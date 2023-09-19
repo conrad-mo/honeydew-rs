@@ -23,19 +23,22 @@ jobs:
           - os: macos-latest
             macos: 1
     runs-on: ${{ matrix.os }}
-
+      - if: ${{ matrix.ubuntu }}
+        run: |
+          echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
+          echo ${{ matrix.ubuntu }}
+      - if: ${{ matrix.macos }}
+        run: |
+          echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
+          echo ${{ matrix.macos }}
+      - if: ${{ matrix.windows }}
+        run: |
+          echo pub const APIKEY: &str = "${{ secrets.COHEREKEY }}"; >> src/api.rs
+          echo ${{ matrix.windows }}
     steps:
     - uses: actions/checkout@v3
     - run: |
         touch src/api.rs
-    - if: ${{ matrix.ubuntu }}
-      run: echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
-    - if: ${{ matrix.macos }}
-      run:
-        echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
-    - if: ${{ matrix.windows }}
-      run:
-        echo pub const APIKEY: &str = "${{ secrets.COHEREKEY }}"; >> src/api.rs
     - name: Build
       run: cargo build --verbose
     - name: Run tests
