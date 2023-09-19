@@ -34,5 +34,7 @@ async fn newcv() -> impl IntoResponse {
         endingparagraph: String::from("Sample"),
         name: String::from("Sample"),
     };
+    let thing = CVLetter::generate_paragraph1().await;
+    println!("{:?}", thing);
     (StatusCode::OK, Json(letter))
 }

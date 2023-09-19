@@ -1,6 +1,7 @@
 use reqwest::header::HeaderMap;
 use serde::Serialize;
 use serde::Deserialize;
+use tokio;
 
 use crate::api;
 #[derive(Debug, Deserialize)]
@@ -19,7 +20,7 @@ pub struct CVLetter {
 }
 
 impl CVLetter {
-    async fn generate_paragraph1() -> Result<APIResponse, reqwest::Error> {
+    pub async fn generate_paragraph1() -> Result<APIResponse, reqwest::Error> {
         let client = reqwest::Client::new();
         let mut headers = HeaderMap::new();
         headers.insert("content-type", "application/json".parse().unwrap());
