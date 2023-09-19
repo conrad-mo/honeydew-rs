@@ -17,8 +17,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-        touch api.rs
-        echo -e "${{ secrets.COHEREKEY }}" >> api.rs
+        touch src/api.rs
+        echo -e "${{ secrets.COHEREKEY }}" >> src/api.rs
     - name: Build
       run: cargo build --verbose
     - name: Run tests
