@@ -31,6 +31,4 @@ jobs:
           name: ${{ matrix.os }}
           path: |
             target/debug/honeydew-rs
-            target/release/honeydew-rs
-            debug/honeydew-rs
-            honeydew-rs
+            target/debug/honeydew-rs.exe
