@@ -15,14 +15,27 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
+        include:
+          - os: windows-latest
+            windows: 1
+          - os: ubuntu-latest
+            ubuntu: 1
+          - os: macos-latest
+            macos: 1
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
     - run: |
         touch src/api.rs
-        echo "pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\";" >> src/api.rs
-        cat src/api.rs
+    - if: ${{ matrix.ubuntu }}
+      run: echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
+    - if: ${{ matrix.macos }}
+      run:
+        echo pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"; >> src/api.rs
+    - if: ${{ matrix.windows }}
+      run:
+        echo pub const APIKEY: &str = "${{ secrets.COHEREKEY }}"; >> src/api.rs
     - name: Build
       run: cargo build --verbose
     - name: Run tests
