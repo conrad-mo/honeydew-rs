@@ -1,6 +1,7 @@
+use axum::Json;
 use reqwest::header::{HeaderMap, HeaderValue};
-use reqwest::{Client, Error, Response};
-use serde::{Serialize, Deserialize};
+use reqwest::{Error};
+use serde::{Serialize};
 
 use crate::api;
 #[derive(Serialize)]
@@ -24,15 +25,8 @@ pub struct APIData {
     return_likelihoods: String,
 }
 
-#[derive(Debug, Deserialize)]
-struct APIResponse {
-    message: String,
-    error: String,
-}
-
 impl CVLetter {
     pub async fn generate_paragraph1() -> Result<(), Error>{
-        let url = "https://api.cohere.ai/v1/generate";
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),
@@ -50,7 +44,11 @@ impl CVLetter {
         println!("Status: {}", response.status());
         let response_body = response.text().await?;
         println!("Response body:\n{}", response_body);
-        //println!("{}", response["generations"]["text"]);
+        let index1 = response_body.find(",\"text\":\" ");
+        let indexone =  index1.unwrap() + 10;
+        let index2 = response_body.find("\"}],\"prompt\":");
+        let indextwo = index2.unwrap();
+        println!("{}", &response_body[indexone..indextwo]);
         Ok(())
     }
     async fn generate_experienceparagraph1() -> String {
