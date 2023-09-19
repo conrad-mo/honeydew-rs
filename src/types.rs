@@ -25,7 +25,7 @@ pub struct APIData {
 }
 
 impl CVLetter {
-    pub async fn generate_paragraph1(cletter: &mut CVLetter) -> Result<(), Error>{
+    pub async fn generate_paragraph1(&mut self) -> Result<(), Error>{
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),
@@ -40,15 +40,12 @@ impl CVLetter {
         headers.insert("Authorization", HeaderValue::from_str(&format!("BEARER {}", api::APIKEY)).unwrap());
         headers.insert("Content-Type", HeaderValue::from_static("application/json"));
         let response = client.post("https://api.cohere.ai/v1/generate").headers(headers).json(&request_data).send().await?;
-        println!("Status: {}", response.status());
         let response_body = response.text().await?;
-        println!("Response body:\n{}", response_body);
         let index1 = response_body.find(",\"text\":\" ");
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        println!("{}", &response_body[indexone..indextwo]);
-        cletter.firstparagraph = String::from(&response_body[indexone..indextwo]);
+        self.firstparagraph = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
     async fn generate_experienceparagraph1() -> String {

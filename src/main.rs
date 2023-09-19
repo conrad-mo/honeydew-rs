@@ -12,7 +12,7 @@ async fn main() {
     let cors = CorsLayer::new().allow_origin(Any);
     let app = Router::new()
         .route("/", get(root))
-        .route("/generate", get(newcv))
+        .route("/generate", get(coverlettergen))
         .layer(cors);
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     println!("listening on {}", addr);
@@ -25,7 +25,7 @@ async fn main() {
 async fn root() -> &'static str {
     "404"
 }
-async fn newcv() -> impl IntoResponse {
+async fn coverlettergen() -> impl IntoResponse {
     let mut letter = CVLetter {
         date: String::from("Sample"),
         firstparagraph: String::from("Sample"),
@@ -34,7 +34,6 @@ async fn newcv() -> impl IntoResponse {
         endingparagraph: String::from("Sample"),
         name: String::from("Sample"),
     };
-    let _ = CVLetter::generate_paragraph1(&mut letter).await;
-    println!("Thing: \n{:?}", letter.firstparagraph);
+    let _ = &letter.generate_paragraph1().await;
     (StatusCode::OK, Json(letter))
 }
