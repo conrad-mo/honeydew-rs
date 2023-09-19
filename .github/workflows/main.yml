@@ -30,6 +30,7 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           echo 'pub const APIKEY: &str = "${{ secrets.COHEREKEY }}";' >> src/api.rs
+      - run: cat src/api.rs
       - name: Build
         run: cargo build --verbose
       - name: Run tests
