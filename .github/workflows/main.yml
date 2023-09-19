@@ -32,3 +32,5 @@ jobs:
           path: |
             target/debug/honeydew-rs
             target/release/honeydew-rs
+            debug/honeydew-rs
+            honeydew-rs
