@@ -1,4 +1,4 @@
-name: Rust
+name: Build
 
 on:
   workflow_dispatch:
@@ -30,3 +30,4 @@ jobs:
         name: Honeydew Binary
         path: |
           target/debug/honeydew-rs
+          target/release/honeydew-rs
