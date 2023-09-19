@@ -1,1 +1,0 @@
-pub const APIKEY: &str = "PUT COHERE API KEY HERE";
