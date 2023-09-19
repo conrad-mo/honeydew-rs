@@ -48,13 +48,16 @@ impl CVLetter {
         self.firstparagraph = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
-    async fn generate_experienceparagraph1() -> String {
+    pub async fn generate_experienceparagraph1(&mut self) -> String {
+        self.experienceparagraphone = String::from("Yes");
         String::from("Yes")
     }
-    async fn generate_experienceparagraph2() -> String {
+    pub async fn generate_experienceparagraph2(&mut self) -> String {
+        self.experienceparagraphtwo = String::from("Yes");
         String::from("Yes")
     }
-    async fn generate_endingparagraph() -> String {
+    pub async fn generate_endingparagraph(&mut self) -> String {
+        self.endingparagraph = String::from("Yes");
         String::from("Yes")
     }
 }

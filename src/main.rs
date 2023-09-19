@@ -27,13 +27,16 @@ async fn root() -> &'static str {
 }
 async fn coverlettergen() -> impl IntoResponse {
     let mut letter = CVLetter {
-        date: String::from("Sample"),
-        firstparagraph: String::from("Sample"),
-        experienceparagraphone: String::from("Sample"),
-        experienceparagraphtwo: String::from("Sample"),
-        endingparagraph: String::from("Sample"),
-        name: String::from("Sample"),
+        date: String::from(""),
+        firstparagraph: String::from(""),
+        experienceparagraphone: String::from(""),
+        experienceparagraphtwo: String::from(""),
+        endingparagraph: String::from(""),
+        name: String::from(""),
     };
     let _ = &letter.generate_paragraph1().await;
+    let _ = &letter.generate_experienceparagraph1().await;
+    let _ = &letter.generate_experienceparagraph2().await;
+    let _ = &letter.generate_endingparagraph().await;
     (StatusCode::OK, Json(letter))
 }
