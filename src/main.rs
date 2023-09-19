@@ -26,7 +26,7 @@ async fn root() -> &'static str {
     "404"
 }
 async fn newcv() -> impl IntoResponse {
-    let letter = CVLetter {
+    let mut letter = CVLetter {
         date: String::from("Sample"),
         firstparagraph: String::from("Sample"),
         experienceparagraphone: String::from("Sample"),
@@ -34,7 +34,7 @@ async fn newcv() -> impl IntoResponse {
         endingparagraph: String::from("Sample"),
         name: String::from("Sample"),
     };
-    let thing = CVLetter::generate_paragraph1().await;
-    println!("{:?}", thing);
+    let _ = CVLetter::generate_paragraph1(&mut letter).await;
+    println!("Thing: \n{:?}", letter.firstparagraph);
     (StatusCode::OK, Json(letter))
 }

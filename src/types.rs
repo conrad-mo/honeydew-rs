@@ -1,4 +1,3 @@
-use axum::Json;
 use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::{Error};
 use serde::{Serialize};
@@ -26,7 +25,7 @@ pub struct APIData {
 }
 
 impl CVLetter {
-    pub async fn generate_paragraph1() -> Result<(), Error>{
+    pub async fn generate_paragraph1(cletter: &mut CVLetter) -> Result<(), Error>{
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),
@@ -49,6 +48,7 @@ impl CVLetter {
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
         println!("{}", &response_body[indexone..indextwo]);
+        cletter.firstparagraph = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
     async fn generate_experienceparagraph1() -> String {
