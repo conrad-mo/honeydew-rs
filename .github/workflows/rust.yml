@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v3
     - run: |
         touch src/api.rs
-        echo -e "pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\"" >> src/api.rs
+        echo -e "pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\";" >> src/api.rs
         cat src/api.rs
     - name: Build
       run: cargo build --verbose
