@@ -20,6 +20,7 @@ jobs:
     - run: |
         touch src/api.rs
         echo -e "${{ secrets.COHEREKEY }}" >> src/api.rs
+        cat src/api.rs
     - name: Build
       run: cargo build --verbose
     - name: Run tests
