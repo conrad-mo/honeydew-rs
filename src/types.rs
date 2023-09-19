@@ -1,7 +1,6 @@
 use reqwest::header::HeaderMap;
 use serde::Serialize;
 use serde::Deserialize;
-use tokio;
 
 use crate::api;
 #[derive(Debug, Deserialize)]
