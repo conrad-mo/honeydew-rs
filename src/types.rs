@@ -1,7 +1,6 @@
 use reqwest::header::{HeaderMap, HeaderValue};
-use reqwest::{Error, Response};
+use reqwest::{Client, Error, Response};
 use serde::{Serialize, Deserialize};
-use serde_json::Result as SerdeJsonResult;
 
 use crate::api;
 #[derive(Serialize)]
@@ -32,11 +31,12 @@ struct APIResponse {
 }
 
 impl CVLetter {
-    pub async fn generate_paragraph1(){
+    pub async fn generate_paragraph1() -> Result<(), Error>{
+        let url = "https://api.cohere.ai/v1/generate";
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write a body paragraph about why someone should apply to RBC".to_string(),
+            prompt: "Write a body paragraph about \"Shopify is a great case study\" in a blog post titled \"Tips from the most successful companies\"".to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
@@ -46,9 +46,11 @@ impl CVLetter {
         let mut headers = HeaderMap::new();
         headers.insert("Authorization", HeaderValue::from_str(&format!("BEARER {}", api::APIKEY)).unwrap());
         headers.insert("Content-Type", HeaderValue::from_static("application/json"));
-        let response = client.post("https://api.cohere.ai/v1/generate").headers(headers).json(&request_data).send().await;
-        let pog = response.unwrap();
-        println!("{:?}", pog);
+        let response = client.post("https://api.cohere.ai/v1/generate").headers(headers).json(&request_data).send().await?;
+        println!("Status: {}", response.status());
+        let response_body = response.text().await?;
+        println!("Response body:\n{}", response_body);
+        Ok(())
     }
     async fn generate_experienceparagraph1() -> String {
         String::from("Yes")
