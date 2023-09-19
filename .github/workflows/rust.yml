@@ -22,7 +22,7 @@ jobs:
         echo -e "pub const APIKEY: &str = \"${{ secrets.COHEREKEY }}\";" >> src/api.rs
         cat src/api.rs
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --verbose --release
     - name: Run tests
       run: cargo test --verbose
     - uses: actions/upload-artifact@v3
