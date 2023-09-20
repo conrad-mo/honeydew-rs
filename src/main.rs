@@ -26,8 +26,6 @@ async fn root() -> &'static str {
 async fn coverlettergen(Json(request_data): Json<UserInfo>) -> impl IntoResponse {
     let field1 = &request_data.name;
     let field3 = &request_data.projects;
-    println!("{}", field1);
-    println!("Projects: \n{:?}", field3);
     let mut letter = CVLetter {
         date: String::from(""),
         firstparagraph: String::from(""),
@@ -35,10 +33,9 @@ async fn coverlettergen(Json(request_data): Json<UserInfo>) -> impl IntoResponse
         experienceparagraphtwo: String::from(""),
         endingparagraph: String::from(""),
     };
-    //println!("{}", payload.name);
     let _ = &letter.generate_paragraph1(&request_data).await;
     let _ = &letter.generate_experienceparagraph1(&request_data).await;
     let _ = &letter.generate_experienceparagraph2(&request_data).await;
-    // let _ = &letter.generate_endingparagraph().await;
+    let _ = &letter.generate_endingparagraph(&request_data).await;
     (StatusCode::OK, Json(letter))
 }

@@ -120,14 +120,20 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        self.experienceparagraphone = String::from(&response_body[indexone..indextwo]);
+        self.experienceparagraphtwo = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
     pub async fn generate_endingparagraph(&mut self, userinfo: &UserInfo) -> Result<(), Error> {
         let client = reqwest::Client::new();
+        let prompt = format!(
+            "Write the last paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. \
+            Write it in first person formally and have some theme with the job position and company.",
+            userinfo.jobposition,
+            userinfo.company,
+        );
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write an introductory paragraph for someone applying to a software engineer position at RBC".to_string(),
+            prompt: prompt.to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
