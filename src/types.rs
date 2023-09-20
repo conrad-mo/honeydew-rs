@@ -17,7 +17,7 @@ pub struct UserInfo {
     pub name: String,
     pub background: String,
     pub jobposition: String,
-    pub projects: String,
+    pub projects: Vec<String>,
     pub company: String,
 }
 
@@ -63,11 +63,18 @@ impl CVLetter {
         self.firstparagraph = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
-    pub async fn generate_experienceparagraph1(&mut self) -> Result<(), Error> {
+    pub async fn generate_experienceparagraph1(&mut self, userinfo: &UserInfo) -> Result<(), Error> {
         let client = reqwest::Client::new();
+        let prompt = format!(
+            "Write a project paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. The details for this project are here: {} \
+            Write it in first person formally and have some theme with the job position and demonstrate the skills used in this project",
+            userinfo.jobposition,
+            userinfo.company,
+            userinfo.projects[0]
+        );
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write an introductory paragraph for someone applying to a software engineer position at RBC".to_string(),
+            prompt: prompt.to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
@@ -86,11 +93,18 @@ impl CVLetter {
         self.experienceparagraphone = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
-    pub async fn generate_experienceparagraph2(&mut self) -> Result<(), Error> {
+    pub async fn generate_experienceparagraph2(&mut self, userinfo: &UserInfo) -> Result<(), Error> {
         let client = reqwest::Client::new();
+        let prompt = format!(
+            "Write a project paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. The details for this project are here: {} \
+            Write it in first person formally and have some theme with the job position and demonstrate the skills used in this project",
+            userinfo.jobposition,
+            userinfo.company,
+            userinfo.projects[1]
+        );
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write an introductory paragraph for someone applying to a software engineer position at RBC".to_string(),
+            prompt: prompt.to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
@@ -106,10 +120,10 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        self.experienceparagraphtwo = String::from(&response_body[indexone..indextwo]);
+        self.experienceparagraphone = String::from(&response_body[indexone..indextwo]);
         Ok(())
     }
-    pub async fn generate_endingparagraph(&mut self) -> Result<(), Error> {
+    pub async fn generate_endingparagraph(&mut self, userinfo: &UserInfo) -> Result<(), Error> {
         let client = reqwest::Client::new();
         let request_data = APIData {
             model: "command".to_string(),

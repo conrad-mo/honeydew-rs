@@ -37,5 +37,8 @@ async fn coverlettergen(Json(request_data): Json<UserInfo>) -> impl IntoResponse
     };
     //println!("{}", payload.name);
     let _ = &letter.generate_paragraph1(&request_data).await;
+    let _ = &letter.generate_experienceparagraph1(&request_data).await;
+    let _ = &letter.generate_experienceparagraph2(&request_data).await;
+    // let _ = &letter.generate_endingparagraph().await;
     (StatusCode::OK, Json(letter))
 }
