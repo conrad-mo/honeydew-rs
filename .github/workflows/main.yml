@@ -23,12 +23,12 @@ jobs:
           echo 'pub const APIKEY: &str = "${{ secrets.COHEREKEY }}";' >> src/api.rs
           cat src/api.rs
       - name: Build
-        run: cargo build --verbose
+        run: cargo build --verbose --release
       - name: Run tests
         run: cargo test --verbose
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}
           path: |
-            target/debug/honeydew-rs
-            target/debug/honeydew-rs.exe
+            target/release/honeydew-rs
+            target/release/honeydew-rs.exe
