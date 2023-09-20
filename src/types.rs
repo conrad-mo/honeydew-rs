@@ -15,11 +15,9 @@ pub struct CVLetter {
 #[derive(Deserialize)]
 pub struct UserInfo {
     pub name: String,
+    pub background: String,
     pub jobposition: String,
-    // pub projects: Vec<String>,
-    // pub pskills: Vec<String>,
-    // pub pdescription: Vec<String>,
-    // pub qualifications: Vec<String>,
+    pub projects: String,
     pub company: String,
 }
 
@@ -35,11 +33,18 @@ pub struct APIData {
 }
 
 impl CVLetter {
-    pub async fn generate_paragraph1(&mut self) -> Result<(), Error>{
+    pub async fn generate_paragraph1(&mut self, userinfo: &UserInfo) -> Result<(), Error>{
         let client = reqwest::Client::new();
+        let prompt = format!(
+            "Write a first introductory paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. Some background information for this person is {}. \
+            Write it in first person formally and have some theme with the company's goals",
+            userinfo.jobposition,
+            userinfo.company,
+            userinfo.background
+        );
         let request_data = APIData {
             model: "command".to_string(),
-            prompt: "Write an introductory paragraph for someone applying to a software engineer position at RBC".to_string(),
+            prompt: prompt.to_string(),
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
