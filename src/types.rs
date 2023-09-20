@@ -33,7 +33,7 @@ pub struct APIData {
 }
 
 impl CVLetter {
-    pub async fn generate_paragraph1(letter: &CVLetter, userinfo: &UserInfo) -> Result<(String), Error>{
+    pub async fn generate_paragraph1(userinfo: &UserInfo) -> Result<String, Error>{
         let client = reqwest::Client::new();
         let prompt = format!(
             "Write a first introductory paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. Some background information for this person is {}. \
@@ -60,9 +60,9 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        Ok((String::from(&response_body[indexone..indextwo])))
+        Ok(String::from(&response_body[indexone..indextwo]))
     }
-    pub async fn generate_experienceparagraph1(letter: &CVLetter, userinfo: &UserInfo) -> Result<(String), Error> {
+    pub async fn generate_experienceparagraph1(userinfo: &UserInfo) -> Result<String, Error> {
         let client = reqwest::Client::new();
         let prompt = format!(
             "Write a project paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. The details for this project are here: {} \
@@ -89,9 +89,9 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        Ok((String::from(&response_body[indexone..indextwo])))
+        Ok(String::from(&response_body[indexone..indextwo]))
     }
-    pub async fn generate_experienceparagraph2(letter: &CVLetter, userinfo: &UserInfo) -> Result<(String), Error> {
+    pub async fn generate_experienceparagraph2(userinfo: &UserInfo) -> Result<String, Error> {
         let client = reqwest::Client::new();
         let prompt = format!(
             "Write a project paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. The details for this project are here: {} \
@@ -118,9 +118,9 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        Ok((String::from(&response_body[indexone..indextwo])))
+        Ok(String::from(&response_body[indexone..indextwo]))
     }
-    pub async fn generate_endingparagraph(letter: &CVLetter, userinfo: &UserInfo) -> Result<(String), Error> {
+    pub async fn generate_endingparagraph(userinfo: &UserInfo) -> Result<String, Error> {
         let client = reqwest::Client::new();
         let prompt = format!(
             "Write the last paragraph out of a 4 paragraph cover letter for someone applying to a {} position at {}. \
@@ -146,6 +146,6 @@ impl CVLetter {
         let indexone =  index1.unwrap() + 10;
         let index2 = response_body.find("\"}],\"prompt\":");
         let indextwo = index2.unwrap();
-        Ok((String::from(&response_body[indexone..indextwo])))
+        Ok(String::from(&response_body[indexone..indextwo]))
     }
 }

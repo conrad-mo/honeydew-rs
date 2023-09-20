@@ -24,25 +24,18 @@ async fn root() -> &'static str {
     "404"
 }
 async fn coverlettergen(Json(request_data): Json<UserInfo>) -> impl IntoResponse {
-    let mut letter = CVLetter {
-        date: String::from(""),
-        firstparagraph: String::from(""),
-        experienceparagraphone: String::from(""),
-        experienceparagraphtwo: String::from(""),
-        endingparagraph: String::from(""),
-    };
     let (paragraph1_result, experience1_result, experience2_result, ending_result) = tokio::join!(
-            CVLetter::generate_paragraph1(&letter, &request_data),
-            CVLetter::generate_experienceparagraph1(&letter, &request_data),
-            CVLetter::generate_experienceparagraph2(&letter, &request_data),
-            CVLetter::generate_endingparagraph(&letter, &request_data)
+            CVLetter::generate_paragraph1(&request_data),
+            CVLetter::generate_experienceparagraph1(&request_data),
+            CVLetter::generate_experienceparagraph2(&request_data),
+            CVLetter::generate_endingparagraph(&request_data)
         );
-    let finalletter = CVLetter {
+    let letter = CVLetter {
         date: String::from(""),
         firstparagraph: paragraph1_result.unwrap(),
         experienceparagraphone: experience1_result.unwrap(),
         experienceparagraphtwo: experience2_result.unwrap(),
         endingparagraph: ending_result.unwrap(),
     };
-    (StatusCode::OK, Json(finalletter))
+    (StatusCode::OK, Json(letter))
 }
