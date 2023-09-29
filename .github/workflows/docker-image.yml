@@ -20,6 +20,17 @@ jobs:
         cat src/api.rs
     - name: Build
       run: cargo build --verbose --release
+    - name: Set up Docker Buildx
+      run: |
+          docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t honeydew-rs-image .
+          docker run --rm --privileged tonistiigi/binfmt --install all
+          docker buildx create --use --name honeydew-rs-builder --driver-opt network=host --buildkitd-flags '--allow-insecure-entitlement security.insecure' --use
+          docker buildx inspect honeydew-rs-builder --bootstrap
+      shell: bash
+
+    - name: Build
+      run: cargo build --verbose --release
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
@@ -28,6 +39,6 @@ jobs:
 
     - name: Build and push Docker images
       run: |
-        docker buildx use mybuilder
-        docker buildx bake --file Dockerfile --push
+        docker buildx use honeydew-rs-builder
+        docker buildx build --file Dockerfile --tag honeydew-rs-image --push .
       shell: bash
