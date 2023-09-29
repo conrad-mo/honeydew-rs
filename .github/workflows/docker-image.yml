@@ -27,9 +27,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and push Docker images
-      uses: docker/bake-action@v2.3.0
-      with:
-        push: true
-        set: |
-          *.cache-from=type=gha
-          *.cache-to=type=gha,mode=max
+      run: |
+        docker buildx use mybuilder
+        docker buildx bake --file Dockerfile --push
+      shell: bash
