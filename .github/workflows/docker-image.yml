@@ -32,8 +32,8 @@ jobs:
     - name: Ssh into AWS EC2
       run: |
         ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com sudo docker ps -a
-        ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com sudo docker stop $(sudo docker ps -a -q)
-        ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com sudo docker rm $(sudo docker ps -a -q)
+        ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com "sudo docker stop $(sudo docker ps -a -q)"
+        ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com "sudo docker rm $(sudo docker ps -a -q)"
         ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com sudo docker pull conradmo/honeydew-rs-image
         ssh -i "key.pem" ubuntu@ec2-18-219-119-135.us-east-2.compute.amazonaws.com sudo docker run -d -p 3000:3000 conradmo/honeydew-rs-image
     - name: Set up Docker Buildx
