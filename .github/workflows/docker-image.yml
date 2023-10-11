@@ -29,7 +29,7 @@ jobs:
       shell: bash
       env:
         SSH_KEY: ${{secrets.SSHKEY}}
-        IP: ${{EC2_IP}}
+        IP: ${{secrets.EC2_IP}}
     - name: Ssh into AWS EC2 and update docker container
       run: |
         ssh -i "key.pem" ubuntu@"$IP" sudo docker ps -a
@@ -38,7 +38,7 @@ jobs:
         ssh -i "key.pem" ubuntu@"$IP" sudo docker pull conradmo/honeydew-rs-image
         ssh -i "key.pem" ubuntu@"$IP" sudo docker run -d -p 3000:3000 conradmo/honeydew-rs-image
       env:
-        IP: ${{EC2_IP}}
+        IP: ${{secrets.EC2_IP}}
     - name: Set up Docker Buildx
       run: |
           docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t conradmo/honeydew-rs-image .
