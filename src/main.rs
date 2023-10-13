@@ -1,7 +1,7 @@
 mod types;
 mod api;
 
-use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router,};
+use axum::{http::StatusCode, response::IntoResponse, routing::get, Json, Router, routing::post};
 use std::net::SocketAddr;
 use tower_http::cors::{Any, CorsLayer};
 use crate::types::{CVLetter, UserInfo};
@@ -10,7 +10,7 @@ async fn main() {
     let cors = CorsLayer::new().allow_origin(Any);
     let app = Router::new()
         .route("/", get(root))
-        .route("/generate", get(coverlettergen))
+        .route("/generate", post(coverlettergen))
         .layer(cors);
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     println!("listening on {}", addr);
